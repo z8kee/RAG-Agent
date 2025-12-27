@@ -1,7 +1,7 @@
 
 # TechRAGBot (RagBot)
 
-A small Retrieval-Augmented-Generation (RAG) demo focused on tech news with speech emotion detection and a Streamlit chat UI.
+A small Retrieval-Augmented-Generation (RAG) demo focused on tech news with speech emotion detection and a Streamlit chat UI (370 lines).
 
 ## Overview
 
@@ -79,3 +79,4 @@ Notes: `speechapi.py` uses `textrecog.py` (which relies on `textrecogitems/` mod
 - Consider saving the FAISS index and `docs` metadata to disk after building so startup is faster.
 
 TechRAGBot is a lightweight Retrieval-Augmented Generation demo that scrapes tech news feeds, embeds article chunks with SentenceTransformers + FAISS, and answers user queries with context-aware LLM responses. It supports audio input with Whisper transcription and an emotion classifier to provide richer conversational context.
+
