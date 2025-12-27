@@ -111,9 +111,3 @@ def ask(request: QueryRequest):
         "answer": answer,
         "sources": sources
     }
-
-
-#print(ask("What are recent advances in multimodal AI?"))
-
-#uvicorn store.py:app --reload
-

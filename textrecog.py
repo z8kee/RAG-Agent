@@ -47,4 +47,3 @@ class TextRecogApp:
         return {"label": label, 
                 "confidence": confidence,
         }
-
