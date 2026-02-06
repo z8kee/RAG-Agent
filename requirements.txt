@@ -10,9 +10,7 @@ tiktoken
 feedparser
 beautifulsoup4
 openai-whisper
-opencv-python
 scipy
-scikit-learn
 nltk
 torch
 tensorflow
