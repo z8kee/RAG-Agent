@@ -49,10 +49,8 @@ if "_apis_started" not in st.session_state:
     st.session_state["_apis_started"] = True
 
     def _wait_for_apis(timeout: int = 30, poll_interval: float = 0.5) -> bool:
-        health_endpoints = [
-            "http://127.0.0.1:8001/docs",  # check Store/RAG backend
-            "http://127.0.0.1:8000/docs"   # check Speech backend
-        ]
+        health_endpoints = ["http://127.0.0.1:8001/health", 
+                            "http://127.0.0.1:8000/health"]
         start = time.time()
 
         while time.time() - start < timeout:
@@ -195,5 +193,6 @@ elif audio:
         st.markdown("### Sources")
         for src in rag_data["sources"]:
             st.write(f"- {src}")
+
 
 
