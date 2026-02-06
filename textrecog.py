@@ -1,11 +1,14 @@
-import whisper, cv2, re, os, time, pickle
-import numpy as np
+import whisper, re, pickle
 from keras.models import load_model
 from scipy.io.wavfile import write
-from sklearn import preprocessing
+import nltk
+# Check if stopwords are downloaded, if not, download them
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
-from sentence_transformers import SentenceTransformer
 
 class TextRecogApp:
     def __init__(self):
@@ -45,5 +48,4 @@ class TextRecogApp:
 
         return {"label": label, 
                 "confidence": confidence,
-
         }
