@@ -1,11 +1,10 @@
-import faiss, numpy as np
-import requests, os
+import faiss
+import requests
 from feedparsing import *
 from tokenisation import chunk_text
 from sentence_transformers import SentenceTransformer
-from fastapi import FastAPI, UploadFile, File
-import tempfile
-from textrecog import TextRecogApp
+from fastapi import FastAPI
+import streamlit as st
 from pydantic import BaseModel
 
 SYSTEM_PROMPT = f"""
@@ -25,7 +24,7 @@ docs = []
 @app.get("/health")
 def health():
     return {"status": "ok"}
-    
+
 def embed(texts):
     vectors = embedder.encode(texts, convert_to_numpy=True)
 
@@ -66,7 +65,7 @@ def retrieve(query_embedding, k=5):
 def generate_answer(query, contexts, confidence, emotion):
     context_text = "\n\n".join(c["text"] for c in contexts)
 
-    api_key = os.getenv("OPEN_API_KEY")
+    api_key = st.secrets["OPENAI_API_KEY"]
     base_url = "https://api.openai.com/v1/chat/completions"
 
     headers = {
@@ -114,5 +113,4 @@ def ask(request: QueryRequest):
     return {
         "answer": answer,
         "sources": sources
-
     }
