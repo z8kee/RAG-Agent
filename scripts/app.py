@@ -48,7 +48,7 @@ if "_apis_started" not in st.session_state:
 
     st.session_state["_apis_started"] = True
 
-    def _wait_for_apis(timeout: int = 30, poll_interval: float = 0.5) -> bool:
+    def _wait_for_apis(timeout, poll_interval: float = 0.5) -> bool:
         health_endpoints = ["http://127.0.0.1:8001/health", 
                             "http://127.0.0.1:8000/health"]
         start = time.time()
