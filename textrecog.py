@@ -3,7 +3,6 @@ import numpy as np
 from keras.models import load_model
 from scipy.io.wavfile import write
 from sklearn import preprocessing
-from pynput import keyboard
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sentence_transformers import SentenceTransformer
@@ -46,4 +45,5 @@ class TextRecogApp:
 
         return {"label": label, 
                 "confidence": confidence,
+
         }
