@@ -22,6 +22,10 @@ app = FastAPI(title="TechBot")
 
 docs = []
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+    
 def embed(texts):
     vectors = embedder.encode(texts, convert_to_numpy=True)
 
@@ -110,4 +114,5 @@ def ask(request: QueryRequest):
     return {
         "answer": answer,
         "sources": sources
+
     }
