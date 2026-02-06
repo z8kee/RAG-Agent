@@ -45,18 +45,13 @@ if "apis_initialized" not in st.session_state:
         _start_uvicorn("store", 8001)
     st.session_state.apis_initialized = True
 
-# --- UI SETUP ---
-
-st.set_page_config(page_title="TechRAGBot", layout="centered")
-st.title("Tech News Agent")
-
 # Check health WITHOUT a blocking while loop
 speech_ready = _port_in_use(8000)
 rag_ready = _port_in_use(8001)
 
 if not (speech_ready and rag_ready):
     st.info("Backends are currently warming up...")
-    time.sleep(5)
+    time.sleep(1)
     st.rerun()
 
 st.set_page_config(page_title="TechRAGBot", layout="centered")
