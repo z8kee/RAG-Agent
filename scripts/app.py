@@ -24,62 +24,42 @@ def _start_uvicorn(module: str, port: int):
     # spawn a separate process to avoid blocking Streamlit
     def _run():
         import uvicorn
-        uvicorn.run(f"{module}:app", host="127.0.0.1", port=port, log_level="info")
+        uvicorn.run(
+            f"{module}:app", 
+            host="127.0.0.1", 
+            port=port, 
+            log_level="warning", 
+            access_log=False
+        )
 
     p = multiprocessing.Process(target=_run, daemon=True)
     p.start()
     return p
 
 
-if "_apis_started" not in st.session_state:
-    # start speechapi on 8000
+# Start processes if they aren't running
+if "apis_initialized" not in st.session_state:
     if not _port_in_use(8000):
-        try:
-            st.session_state["_speech_proc"] = _start_uvicorn("speechapi", 8000)
-        except Exception:
-            pass
-
-    # start store (RAG) on 8001
+        _start_uvicorn("speechapi", 8000)
     if not _port_in_use(8001):
-        try:
-            st.session_state["_store_proc"] = _start_uvicorn("store", 8001)
-        except Exception:
-            pass
+        _start_uvicorn("store", 8001)
+    st.session_state.apis_initialized = True
 
-    st.session_state["_apis_started"] = True
+# --- UI SETUP ---
 
-    def _wait_for_apis(timeout, poll_interval: float = 0.5) -> bool:
-        health_endpoints = ["http://127.0.0.1:8001/health", 
-                            "http://127.0.0.1:8000/health"]
-        start = time.time()
+st.set_page_config(page_title="TechRAGBot", layout="centered")
+st.title("Tech News Agent")
 
-        while time.time() - start < timeout:
-            all_up = True
-            for url in health_endpoints:
-                try:
-                    # We check the status code here to be sure
-                    resp = requests.get(url, timeout=1)
-                    if resp.status_code != 200:
-                        all_up = False
-                        break
-                except Exception:
-                    all_up = False
-                    break
+# Check health WITHOUT a blocking while loop
+speech_ready = _port_in_use(8000)
+rag_ready = _port_in_use(8001)
 
-            if all_up:
-                return True
+if not (speech_ready and rag_ready):
+    st.info("Backends are currently warming up...")
+    time.sleep(5)
+    st.rerun()
 
-            time.sleep(poll_interval)
-
-        return False
-
-    with st.spinner("Starting backends, waiting for APIs to become available... (Please wait up to 2 minutes)"):
-        ready = _wait_for_apis(timeout=120)
-
-    if not ready:
-        st.warning("Some backends did not start within the timeout; features may be limited.")
-
-    st.set_page_config(page_title="TechRAGBot", layout="centered")
+st.set_page_config(page_title="TechRAGBot", layout="centered")
 
 st.title("Tech News Agent")
 st.caption("Retrieval Augmented Agent")
