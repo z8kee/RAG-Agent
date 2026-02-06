@@ -37,7 +37,7 @@ def _start_uvicorn(module: str, port: int):
     return p
 
 
-# Start processes if they aren't running
+# Start processes if they aren't running.
 if "apis_initialized" not in st.session_state:
     if not _port_in_use(8000):
         _start_uvicorn("speechapi", 8000)
