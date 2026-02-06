@@ -7,6 +7,10 @@ from textrecog import TextRecogApp
 app = FastAPI()
 emotionrecog = TextRecogApp()
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+    
 @app.post("/speech")
 async def speechtoemotion(file: UploadFile = File(...)):
     #  temporary path used for saving file
@@ -27,3 +31,4 @@ async def speechtoemotion(file: UploadFile = File(...)):
         "confidence": emotion["confidence"]
 
     }
+
