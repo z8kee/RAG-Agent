@@ -69,8 +69,8 @@ if "_apis_started" not in st.session_state:
 
         return False
 
-    with st.spinner("Starting backends, waiting for APIs to become available..."):
-        ready = _wait_for_apis(timeout=45)
+    with st.spinner("Starting backends, waiting for APIs to become available... (Please wait up to 2 minutes)"):
+        ready = _wait_for_apis(timeout=120)
 
     if not ready:
         st.warning("Some backends did not start within the timeout; features may be limited.")
@@ -189,3 +189,4 @@ elif audio:
         st.markdown("### Sources")
         for src in rag_data["sources"]:
             st.write(f"- {src}")
+
