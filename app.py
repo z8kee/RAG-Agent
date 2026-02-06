@@ -2,7 +2,80 @@ import streamlit as st, requests, time
 API_URL_QUERY = "http://127.0.0.1:8001/query"
 API_URL_SPEECH = "http://127.0.0.1:8000/speech"
 
-st.set_page_config(page_title="TechRAGBot", layout="centered")
+# Start FastAPI backends when Streamlit starts (runs once per session)
+import socket
+import multiprocessing
+
+def _port_in_use(port: int, host: str = "127.0.0.1") -> bool:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        s.settimeout(0.5)
+        s.connect((host, port))
+        return True
+    except Exception:
+        return False
+    finally:
+        try:
+            s.close()
+        except Exception:
+            pass
+
+def _start_uvicorn(module: str, port: int):
+    # spawn a separate process to avoid blocking Streamlit
+    def _run():
+        import uvicorn
+        uvicorn.run(f"{module}:app", host="127.0.0.1", port=port, log_level="info")
+
+    p = multiprocessing.Process(target=_run, daemon=True)
+    p.start()
+    return p
+
+
+if "_apis_started" not in st.session_state:
+    # start speechapi on 8000
+    if not _port_in_use(8000):
+        try:
+            st.session_state["_speech_proc"] = _start_uvicorn("speechapi", 8000)
+        except Exception:
+            pass
+
+    # start store (RAG) on 8001
+    if not _port_in_use(8001):
+        try:
+            st.session_state["_store_proc"] = _start_uvicorn("store", 8001)
+        except Exception:
+            pass
+
+    st.session_state["_apis_started"] = True
+
+    def _wait_for_apis(timeout: int = 30, poll_interval: float = 0.5) -> bool:
+        endpoints = [API_URL_QUERY, API_URL_SPEECH]
+        start = time.time()
+
+        while time.time() - start < timeout:
+            all_up = True
+            for url in endpoints:
+                try:
+                    requests.get(url, timeout=1)
+
+                except Exception:
+                    all_up = False
+                    break
+
+            if all_up:
+                return True
+
+            time.sleep(poll_interval)
+
+        return False
+
+    with st.spinner("Starting backends, waiting for APIs to become available..."):
+        ready = _wait_for_apis(timeout=45)
+
+    if not ready:
+        st.warning("Some backends did not start within the timeout; features may be limited.")
+
+    st.set_page_config(page_title="TechRAGBot", layout="centered")
 
 st.title("Tech News Agent")
 st.caption("Retrieval Augmented Agent")
