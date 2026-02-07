@@ -1,7 +1,7 @@
 import feedparser
 import requests
 from bs4 import BeautifulSoup
-from scripts.tokenisation import *
+from tokenisation import *
 
 FEEDS = [
     "https://openai.com/blog/rss.xml", 

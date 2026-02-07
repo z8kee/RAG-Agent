@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 import shutil, os
-from scripts.textrecog import TextRecogApp
+from textrecog import TextRecogApp
 
 # instantiate the speech+emotion helper once at startup to avoid reloading
 # heavy models on every request
