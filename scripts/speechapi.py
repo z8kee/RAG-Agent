@@ -1,5 +1,10 @@
 from fastapi import FastAPI, UploadFile, File
 import shutil, os
+import nltk
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 from textrecog import TextRecogApp
 
 # instantiate the speech+emotion helper once at startup to avoid reloading

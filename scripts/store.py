@@ -6,7 +6,12 @@ from sentence_transformers import SentenceTransformer
 from fastapi import FastAPI
 import streamlit as st
 from pydantic import BaseModel
-
+import nltk
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+    
 SYSTEM_PROMPT = f"""
 You are a retrieval-grounded assistant.
 Use the provided context to answer, give comprehensive answers, dont mention the provided context, just act like you already specialise in giving tech news.

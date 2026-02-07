@@ -1,5 +1,10 @@
 import whisper, re, pickle
 from keras.models import load_model
+import nltk
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
