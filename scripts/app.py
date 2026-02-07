@@ -51,7 +51,7 @@ rag_ready = _port_in_use(8001)
 
 if not (speech_ready and rag_ready):
     st.info("Backends are currently warming up...")
-    time.sleep(1)
+    time.sleep(20)
     st.rerun()
 
 st.set_page_config(page_title="TechRAGBot", layout="centered")
