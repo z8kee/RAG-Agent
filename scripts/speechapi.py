@@ -1,5 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 import shutil, os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import nltk
 try:
     nltk.data.find('corpora/stopwords')
