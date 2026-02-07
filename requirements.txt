@@ -1,4 +1,6 @@
 streamlit
+python-multipart
+scikit-learn==1.7.1
 requests
 uvicorn
 fastapi
