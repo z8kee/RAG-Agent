@@ -85,7 +85,7 @@ def generate_answer(query, contexts, confidence, emotion):
     confidenceword = "High confidence" if confidence >= 0.7 else ("Mid confidence" if confidence >= 0.4 else ("Low confidence")) 
     
     if emotion:
-            emotion_hint = f"\nDont mention user emotion.. User emotion: {emotion} (Confidence: {confidence:.2f})"
+            emotion_hint = f"\nDont mention user emotion.. User emotion: {emotion} ({confidenceword}: {confidence:.2f})"
     
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT + emotion_hint},
