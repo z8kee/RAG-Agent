@@ -19,7 +19,7 @@ pip install streamlit requests feedparser beautifulsoup4 fastapi uvicorn sentenc
 
 3. Set your OpenAI API key environment variable used by `store.py` (If you're not able to provide a key, message owner for a key...):
 
-```bash
+```bashf
 # Windows PowerShell
 $env:OPEN_API_KEY = "your_api_key_here"
 ```
