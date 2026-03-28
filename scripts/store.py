@@ -4,7 +4,6 @@ from feedparsing import *
 from tokenisation import chunk_text
 from sentence_transformers import SentenceTransformer
 from fastapi import FastAPI
-import streamlit as st
 from pydantic import BaseModel
 import nltk
 import os
@@ -73,7 +72,7 @@ def retrieve(query_embedding, k=5):
 def generate_answer(query, contexts, confidence, emotion):
     context_text = "\n\n".join(c["text"] for c in contexts)
 
-    api_key = st.secrets["OPENAI_API_KEY"]
+    api_key = os.environ.get("OPENAI_API_KEY")
     base_url = "https://api.openai.com/v1/chat/completions"
 
     headers = {
