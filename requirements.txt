@@ -1,0 +1,14 @@
+streamlit
+requests
+feedparser
+beautifulsoup4
+fastapi
+faiss-cpu
+numpy
+sentence-transformers
+pydantic
+openai-whisper
+keras
+scipy
+nltk
+tiktoken
