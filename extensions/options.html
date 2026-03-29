@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>TechRAG Options</title></head>
+<body>
+  <h2>Microphone Setup</h2>
+  <p>Click below to grant microphone access. You only need to do this once.</p>
+  <button id="request-mic">Allow Microphone</button>
+  <script>
+    document.getElementById('request-mic').addEventListener('click', async () => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        alert("Microphone access granted! You can close this tab and use the extension.");
+      } catch (err) {
+        alert("Error: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

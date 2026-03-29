@@ -19,4 +19,4 @@ COPY . .
 EXPOSE $PORT
 
 # Run Uvicorn from /app
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}
+CMD uvicorn store:app --host 0.0.0.0 --port ${PORT:-8080}

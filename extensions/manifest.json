@@ -7,9 +7,10 @@
     "default_popup": "popup.html",
     "default_title": "Open TechRAG"
   },
-  "permissions": [
-    "audioCapture"
-  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "host_permissions": [
     "https://*.run.app/*", 
     "https://*/*"

@@ -25,7 +25,7 @@ sendBtn.addEventListener('click', async () => {
     userInput.value = '';
 
     try {
-        const response = await fetch(`${API_BASE_URL}/rag/query`, {
+        const response = await fetch(`${API_BASE_URL}/query`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -68,7 +68,7 @@ recordBtn.addEventListener('mousedown', async () => {
 
             try {
                 // Step A: Send audio to /speech endpoint
-                const speechRes = await fetch(`${API_BASE_URL}/audio/speech`, {
+                const speechRes = await fetch(`${API_BASE_URL}/speech`, {
                     method: 'POST',
                     body: formData
                 });
@@ -79,7 +79,7 @@ recordBtn.addEventListener('mousedown', async () => {
                 appendMessage(`(Transcribed: "${speechData.text}") [Emotion: ${speechData.emotion}]`, 'user');
 
                 // Step B: Send transcribed text to /query endpoint
-                const queryRes = await fetch(`${API_BASE_URL}/rag/query`, {
+                const queryRes = await fetch(`${API_BASE_URL}/query`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
