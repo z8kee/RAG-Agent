@@ -1,6 +1,4 @@
-// Note: Change this to your Azure URL later. 
-// For now, it points to your local main.py server.
-const API_BASE_URL = "http://127.0.0.1:8080"; 
+const API_BASE_URL = "https://tech-rag-agent-904422306151.europe-west1.run.app"; 
 
 const chatBox = document.getElementById('chat-box');
 const userInput = document.getElementById('user-input');

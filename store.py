@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import nltk
 import os
+
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 try:
@@ -25,6 +26,16 @@ DIM = 384
 index = faiss.IndexFlatL2(DIM)
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 app = FastAPI(title="TechBot")
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 docs = []
 
